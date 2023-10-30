@@ -10,29 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Login to Docker Hub
-      run: echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login --username ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
+      - name: Login to Docker Hub
+        run: echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login --username ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
 
-    - name: Build and push frontend Docker image
-      run: |
-        cd frontend
-        docker build -t ahadalichowdhury/front-end-mern-stack:latest -f Dockerfile.txt
-        docker push ahadalichowdhury/front-end-mern-stack:latest
+      - name: Build and push frontend Docker image
+        run: |
+          docker build -t ahadalichowdhury/front-end-mern-stack:latest -f ./frontend/Dockerfile ./frontend
+          docker push ahadalichowdhury/front-end-mern-stack:latest
 
-    - name: Build and push backend Docker image
-      run: |
-        docker build -t ahadalichowdhury/back-end-mern-stack:latest ./backend
-        docker push ahadalichowdhury/back-end-mern-stack:latest
+      - name: Build and push backend Docker image
+        run: |
+          docker build -t ahadalichowdhury/back-end-mern-stack:latest ./backend
+          docker push ahadalichowdhury/back-end-mern-stack:latest
 
-    - name: Deploy to AWS EC2 (testing)
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-          sudo docker-compose -f docker-compose.yml pull
-          sudo docker-compose -f docker-compose.yml up -d
+      - name: Deploy to AWS EC2 (testing)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo docker-compose -f docker-compose.yml pull
+            sudo docker-compose -f docker-compose.yml up -d
