@@ -18,7 +18,8 @@ jobs:
 
     - name: Build and push frontend Docker image
       run: |
-        docker build -t ahadalichowdhury/front-end-mern-stack:latest ./frontend
+        cd frontend
+        docker build -t ahadalichowdhury/front-end-mern-stack:latest .
         docker push ahadalichowdhury/front-end-mern-stack:latest
 
     - name: Build and push backend Docker image
