@@ -1,0 +1,10 @@
+version: "3"
+services:
+  frontend:
+    image: ahadalichowdhury/front-end-mern-stack:latest # Replace with your frontend image name and tag
+    ports:
+      - "8080:80"
+  backend:
+    image: ahadalichowdhury/back-end-mern-stack:latest # Replace with your backend image name and tag
+    ports:
+      - "5000:5000"
