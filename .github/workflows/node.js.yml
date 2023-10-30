@@ -26,7 +26,7 @@ jobs:
         docker build -t ahadalichowdhury/back-end-mern-stack:latest ./backend
         docker push ahadalichowdhury/back-end-mern-stack:latest
 
-    - name: Deploy to AWS EC2
+    - name: Deploy to AWS EC2 (testing)
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.EC2_HOST }}
